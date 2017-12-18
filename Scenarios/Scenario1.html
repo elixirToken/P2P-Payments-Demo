@@ -82,7 +82,7 @@
                       gas: gasAmount
                   });
                   // Uncomment the next line to see how a borrower can cancel a request for a loan:
-                  // managerContract.cancelLoanRequestAtIndex(index,{from:borrower,gas: gasAmount});
+                  // managerContract.cancelLoanRequestAtIndexByBorrower(index,{from:borrower,gas: gasAmount});
                   var loan = managerContract.loans.call(index);
                   console.log('Loan has been requested (status=1): ' + loan);
                   // The lender is starting the loan:
