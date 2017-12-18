@@ -83,8 +83,6 @@
                   });
                   // Uncomment the next line to see how a borrower can cancel a request for a loan:
                   // managerContract.cancelLoanRequestAtIndex(index,{from:borrower,gas: gasAmount});
-                  // Uncomment the next line to test out a lender cancelling a loan:
-                  // managerContract.cancelActiveLoanAtIndex(index,{from:lender,gas: gasAmount});
                   var loan = managerContract.loans.call(index);
                   console.log('Loan has been requested (status=1): ' + loan);
                   // The lender is starting the loan:
@@ -96,6 +94,8 @@
                   // You'll notice the status of the loan has now changed when you print it out:
                   loan = managerContract.loans.call(index);
                   console.log('Loan is active (status=2): ' + loan);
+                  // Uncomment the next line to test out a lender cancelling a loan:
+                  // managerContract.cancelActiveLoanAtIndex(index,{from:lender,gas: gasAmount});
                   // The borrower's balance has been increased by the loan amount.
                   console.log('Balance of borrower has been increased to the loan amount: ' + mainContract.balanceOf.call(borrower));
                   // Advance some blocks to simulate time passing.
