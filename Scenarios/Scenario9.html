@@ -5,7 +5,7 @@
    with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
    A copy of the license is included in the folder entitled "GNU
    Free Documentation License".
-   Scenario 6: Single payment with interest and mining and an attempt to break holding.
+   Scenario 9: Single payment without mining.
    -->
 <html>
    <head></head>
@@ -38,110 +38,80 @@
          gas: '4700000'
             }, function (e, managerContract) {
              if (typeof managerContract.address !== 'undefined') {
-                console.log('Token manager contract mined, address: ' + managerContract.address + ' tx: ' + managerContract.transactionHash);
-                console.log('SCENARIO 6: SINGLE PAYMENT WITH INTEREST AND MINING AND ATTEMPT TO BREAK HOLDING (EXPECTED RESULT: VM EXCEPTION)');
-                var index = 0;
-                var gasAmount = 300000; // You can optimize the gas for each function call, as will be done in the app.       
-                // Set the new token contract address in the token manager.
-                managerContract.setNewTokenAddress(mainContract.address, {
-                    from: web3.eth.accounts[0],
-                    gas: gasAmount
-                });
-                // Set the token manager contract in new token contract.
-                mainContract.setTokenManagerContractAddress(managerContract.address, {
-                    from: web3.eth.accounts[0],
-                    gas: gasAmount
-                });
-                // Increase mineable to allow lenders and borrowers to claim rewards. This provides an upper bound on the possible rewards.
-                // For testing, you can set this an arbitrary number. In the final contracts, the mineable amount will be automatically calculated by the converter.
-                var mineableAmount = new web3.BigNumber('100000000000000000000'); // Set mineable amount in 10^-18 tokens
-                mainContract.increaseMineableAmount(mineableAmount, {
-                    from: web3.eth.accounts[0],
-                    gas: gasAmount
-                });
-                // Specify the loan parameters
-                var borrower = web3.eth.accounts[1];
-                var lender = web3.eth.accounts[0];
-                var amountToBorrow = new web3.BigNumber('2000000000000000000000'); // Amount in 10^-18 tokens (2000 tokens);
-                var loanLengthInBlocks = new web3.BigNumber('10'); // Use a small number for testing.
-                var interest = new web3.BigNumber('200000000000000000000'); // Interest in 10^-18 tokens (200 tokens)
-                var willMine = Boolean(1); // Whether the loan will mine upon completion (see documentation for more info).
-                var loanMessage = 'Will pay you back next week...'; // This is an experimental feature. May also use bytes32.
-                // You can import additional balance to the lender here:
-                var testBalance = new web3.BigNumber('2000000000000000000000'); // 2000 tokens imported to the lender.
-                mainContract.addTestBalance(testBalance, {
-                    from: lender,
-                    gas: gasAmount
-                });
-                var initialLenderBalance = new web3.BigNumber(mainContract.balanceOf.call(lender));
-                console.log('Initial balance of lender: ' + mainContract.balanceOf.call(web3.eth.accounts[0]));
-                // Add some balance to the borrower so they can pay the interest
-                var borrowerAddition = new web3.BigNumber('200000000000000000000'); // 200 tokens
-                mainContract.addTestBalance(borrowerAddition, {
-                    from: borrower,
-                    gas: gasAmount
-                });
-                console.log('Borrower test balance has been increased by the interest amount.');
-                // Make the request
-                console.log('Requesting a loan...');
-                managerContract.requestLoan(lender, amountToBorrow, loanLengthInBlocks, interest, willMine, loanMessage, {
-                    from: borrower,
-                    gas: gasAmount
-                });
-                // Now we can check our loan in the loans array:
-                var loan = managerContract.loans.call(index);
-                console.log('Loan has been requested (status=1): ' + loan)
-                    // The lender is starting the loan:
-                console.log('Lender is accepting the loan...');
-                managerContract.attemptBeginLoanAtIndex(index, {
-                        from: lender,
-                        gas: gasAmount
-                    })
-                    // You'll notice the status of the loan has now changed when you print it out:
-                loan = managerContract.loans.call(index);
-                console.log('Loan is active (status=2): ' + loan);
-                // The borrower's balance has been increased by the loan amount.
-                console.log('Balance of borrower has been increased by the loan amount and is now: ' + mainContract.balanceOf.call(borrower));
-                // Advance some blocks to simulate time passing. 
-                for (i = 0; i < 5; i++) {
-                    managerContract.advanceBlock();
-                }
-                console.log('Borrower is paying back the loan in one piece...');
-                var totalAmount = new web3.BigNumber('2200000000000000000000'); // Paying back loan amount and interest all at once.
-                managerContract.payAmountForLoanAtIndex(totalAmount, index, {
-                    from: borrower,
-                    gas: gasAmount
-                });
-                // Borrower has repaid:
-                console.log('Balance of borrower after repaying loan: ' + mainContract.balanceOf.call(borrower))
-                loan = managerContract.loans.call(index);
-                // Loan status is in holding:
-                console.log('Loan is now in holding (status 3): ' + loan);
-                console.log('Simulating an attempt to break holding via a regular transfer...');
-                console.log('Expected result: VM Exception');
-                var amountToTransfer = new web3.BigNumber('200000000000000000001'); // Transfer cannot be larger than non-holding balance (200000000000000000000) otherwise it breaks holding.
-                mainContract.transfer(borrower, amountToTransfer, {
-                        from: lender,
-                        gas: gasAmount
-                    })
-                // Reduce the transfer amount to reach the code below:
-                // Lender needs to wait to claim reward.
-                for (i = 0; i < 6; i++) {
-                    managerContract.advanceBlock();
-                }
-                console.log('Lender has waited out the holding period, so borrower and lender can claim rewards.');
-                console.log('Lender is triggering distribution of rewards...');
-                managerContract.requestRewardForLoanAtIndex(index, {
-                    from: lender,
-                    gas: gasAmount
-                });
-                // Loan status has changed to complete
-                loan = managerContract.loans.call(index);
-                console.log('Loan is complete (status 7): ' + loan);
-                console.log('Checking the balances of the lender and borrower shows that rewards have been added:')
-                console.log('Balance of borrower: ' + mainContract.balanceOf.call(borrower))
-                console.log('Balance of lender: ' + mainContract.balanceOf.call(lender))
-                }
+                  console.log('Token manager contract mined, address: ' + managerContract.address + ' tx: ' + managerContract.transactionHash);
+                  console.log('SCENARIO 9: SINGLE PAYMENT WITHOUT MINING')
+                  var index = 0;
+                  var gasAmount = 290000; // You can optimize the amount for each function call, as will be done in the app.       
+                  // Set the new token contract address in the token manager.
+                  managerContract.setNewTokenAddress(mainContract.address, {
+                      from: web3.eth.accounts[0],
+                      gas: gasAmount
+                  });
+                  // Set the token manager contract in new token contract.
+                  mainContract.setTokenManagerContractAddress(managerContract.address, {
+                      from: web3.eth.accounts[0],
+                      gas: gasAmount
+                  });
+                  // Increase mineable to allow lenders and borrowers to claim rewards. This provides an upper bound on the possible rewards.
+                  // For testing, you can set this an arbitrary number. In the final contracts, the mineable amount will be automatically calculated by the converter.
+                  var mineableAmount = new web3.BigNumber('100000000000000000000'); // Set mineable amount in 10^-18 tokens
+                  mainContract.increaseMineableAmount(mineableAmount, {
+                      from: web3.eth.accounts[0],
+                      gas: gasAmount
+                  });
+                  // Specify the loan parameters
+                  var borrower = web3.eth.accounts[1];
+                  var lender = web3.eth.accounts[0];
+                  var amountToBorrow = new web3.BigNumber('100000000000000000000'); // Amount in 10^-18 tokens
+                  var loanLengthInBlocks = new web3.BigNumber('15');
+                  var interest = new web3.BigNumber('0'); // Interest in 10^-18 tokens
+                  var willMine = Boolean(0); // Whether the loan will mine upon completion (see documentation for more info).
+                  var loanMessage = 'Will pay you back by next week :)';
+                  // You can import additional balance to the lender here:
+                  var testBalance = new web3.BigNumber('500000000000000000000');
+                  mainContract.addTestBalance(testBalance, {
+                      from: lender,
+                      gas: gasAmount
+                  });
+                  var initialLenderBalance = new web3.BigNumber(mainContract.balanceOf.call(lender));
+                  console.log('Initial balance of lender: ' + mainContract.balanceOf.call(web3.eth.accounts[0]));
+                  // Make the request
+                  console.log('Requesting a loan...');
+                  managerContract.requestLoan(lender, amountToBorrow, loanLengthInBlocks, interest, willMine, loanMessage, {
+                      from: borrower,
+                      gas: gasAmount
+                  });
+                  var loan = managerContract.loans.call(index);
+                  console.log('Loan has been requested (status=1): ' + loan);
+                  // The lender is starting the loan:
+                  console.log('Lender is accepting the loan...');
+                  managerContract.attemptBeginLoanAtIndex(index, {
+                      from: lender,
+                      gas: gasAmount
+                  });
+                  // You'll notice the status of the loan has now changed when you print it out:
+                  loan = managerContract.loans.call(index);
+                  console.log('Loan is active (status=2): ' + loan);
+                  // The borrower's balance has been increased by the loan amount.
+                  console.log('Balance of borrower has been increased to the loan amount: ' + mainContract.balanceOf.call(borrower));
+                  // Advance some blocks to simulate time passing.
+                  for (i = 0; i < 10; i++) {
+                      managerContract.advanceBlock();
+                  }
+                  // The borrower is now going to pay back the loan:
+                  console.log('Borrower is paying back the loan in one installment...');
+                  var amountToReturn = new web3.BigNumber('100000000000000000000');
+                  managerContract.payAmountForLoanAtIndex(amountToReturn, index, {
+                      from: borrower,
+                      gas: gasAmount
+                  });
+                  // Borrower has repaid:
+                  console.log('Balance of borrower after repaying loan: ' + mainContract.balanceOf.call(borrower))
+                  // Loan status has changed to completed (7)
+                  loan = managerContract.loans.call(index);
+                  console.log('Loan is complete (status 7): ' + loan);
+                  console.log('Scenario 9 complete.')
+             }
           })
               }
           })

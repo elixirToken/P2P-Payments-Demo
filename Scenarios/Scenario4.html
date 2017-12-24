@@ -59,7 +59,6 @@
                      from: web3.eth.accounts[0],
                      gas: gasAmount
                  });
-                 index = 0;
                  // Specify the loan parameters
                  var borrower = web3.eth.accounts[1];
                  var lender = web3.eth.accounts[0];
@@ -89,7 +88,7 @@
                      from: borrower,
                      gas: gasAmount
                  });
-                 // Now we can check our our loan in the loans array:
+                 // Now we can check our loan in the loans array:
                  var loan = managerContract.loans.call(index);
                  console.log('Loan has been requested (status=1): ' + loan)
                      // The lender is starting the loan:
