@@ -5,7 +5,7 @@
    with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
    A copy of the license is included in the folder entitled "GNU
    Free Documentation License".
-   Scenario 6: Single payment with interest and mining and an attempt to break holding using transfer.
+   Scenario 13: Single payment with interest and mining and an attempt to break holding using transferFrom.
    -->
 <html>
    <head></head>
@@ -39,7 +39,7 @@
             }, function (e, managerContract) {
              if (typeof managerContract.address !== 'undefined') {
                 console.log('Token manager contract mined, address: ' + managerContract.address + ' tx: ' + managerContract.transactionHash);
-                console.log('SCENARIO 6: SINGLE PAYMENT WITH INTEREST AND MINING AND ATTEMPT TO BREAK HOLDING USING TRANSFER (EXPECTED RESULT: VM EXCEPTION)');
+         		console.log('SCENARIO 13: SINGLE PAYMENT WITH INTEREST AND MINING AND ATTEMPT TO BREAK HOLDING USING TRANSFERFROM (EXPECTED RESULT: VM EXCEPTION)');
                 var index = 0;
                 var gasAmount = 300000; // You can optimize the gas for each function call, as will be done in the app.       
                 // Set the new token contract address in the token manager.
@@ -91,13 +91,13 @@
                 // Now we can check our loan in the loans array:
                 var loan = managerContract.loans.call(index);
                 console.log('Loan has been requested (status=1): ' + loan)
-                    // The lender is starting the loan:
+                // The lender is starting the loan:
                 console.log('Lender is accepting the loan...');
                 managerContract.attemptBeginLoanAtIndex(index, {
                         from: lender,
                         gas: gasAmount
                     })
-                    // You'll notice the status of the loan has now changed when you print it out:
+                // You'll notice the status of the loan has now changed when you print it out:
                 loan = managerContract.loans.call(index);
                 console.log('Loan is active (status=2): ' + loan);
                 // The borrower's balance has been increased by the loan amount.
@@ -117,13 +117,17 @@
                 loan = managerContract.loans.call(index);
                 // Loan status is in holding:
                 console.log('Loan is now in holding (status 3): ' + loan);
-                console.log('Simulating an attempt to break holding via a regular transfer...');
+                console.log('Simulating an attempt to break holding using transferFrom...');
                 console.log('Expected result: VM Exception');
                 var amountToTransfer = new web3.BigNumber('200000000000000000001'); // Transfer cannot be larger than non-holding balance (200000000000000000000) otherwise it breaks holding.
-                mainContract.transfer(borrower, amountToTransfer, {
-                        from: lender,
+                // Approve the borrower to move the tokens.
+                if (mainContract.approve(borrower, amountToTransfer,{from: lender,gas: gasAmount})) {
+                	// Borrower is attempting the transfer from lender address:
+                    mainContract.transferFrom(lender,borrower, amountToTransfer, {
+                        from: borrower,
                         gas: gasAmount
                     })
+                }
                 // Reduce the transfer amount to reach the code below:
                 // Lender needs to wait to claim reward.
                 for (i = 0; i < 6; i++) {
