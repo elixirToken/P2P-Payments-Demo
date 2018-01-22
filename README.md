@@ -1,7 +1,15 @@
 # P2P-Payments-Demo
 Prerequisites: Ethereum testnet and browser developer console.
 
-Try the following scenarios:
+Try the following crowdfunding scenarios:
+
+1. Successful maximum funding campaign (Multiple investors).
+2. Minimum goal reached and funding distributed (Multiple investors).
+3. Insufficient funding (Single investor).
+4. Minimum goal = maximum goal (Single investor).
+5. Insufficient funding (Multiple investors).
+
+Try the following lending scenarios:
 
 1. Single payment with mining.
 2. Single late payment with mining.
@@ -17,4 +25,4 @@ Try the following scenarios:
 12. Multiple payments with interest without mining.
 13. Single payment with mining and interest and an attempt to break holding using transferFrom.
 
-Use the console to view information as each scenario runs. Use the documentation to understand how to modify and create new scenarios. You can combine or alter as many scenarios as desired; the contracts will keep track of all loans and relevant information.
+Use the console to view information as each scenario runs. Use the lending and crowdfunding documentation to understand how to modify and create new scenarios. You can combine or alter as many scenarios as desired; the contracts will keep track of all relevant information.
