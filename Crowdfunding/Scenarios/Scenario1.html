@@ -37,7 +37,7 @@
          gas: '4700000'
          }, function (e, testToken){
          if (typeof testToken.address !== 'undefined') {
-         	console.log('Test token contract mined, address: ' + testToken.address + ' tx: ' + testToken.transactionHash);
+                console.log('Test token contract mined, address: ' + testToken.address + ' tx: ' + testToken.transactionHash);
          	console.log('Crowdfunding Scenario 1: Successful maximum funding campaign (multiple investors).');
          	var gasAmount = 2900000; // You can optimize the amount for each function call, as will be done in the app.
          	// Let's set up creator to be:
@@ -53,20 +53,20 @@
          	testToken.importBalance(investor1InitialBalance,{
                     from: investor1,
                     gas: gasAmount
-            }); 
-            var investor2InitialBalance = new web3.BigNumber('500000000000000000000');
+                }); 
+                var investor2InitialBalance = new web3.BigNumber('500000000000000000000');
          	testToken.importBalance(investor2InitialBalance,{
                     from: investor2,
                     gas: gasAmount
-            });
-            var investor3InitialBalance = new web3.BigNumber('500000000000000000000');
+                });
+                var investor3InitialBalance = new web3.BigNumber('500000000000000000000');
          	testToken.importBalance(investor3InitialBalance,{
                     from: investor3,
                     gas: gasAmount
-            });
-            console.log('Initial balance of investor 1: ' + testToken.balanceOf.call(investor1));
-            console.log('Initial balance of investor 2: ' + testToken.balanceOf.call(investor2));
-            console.log('Initial balance of investor 3: ' + testToken.balanceOf.call(investor3));
+                });
+                console.log('Initial balance of investor 1: ' + testToken.balanceOf.call(investor1));
+                console.log('Initial balance of investor 2: ' + testToken.balanceOf.call(investor2));
+                console.log('Initial balance of investor 3: ' + testToken.balanceOf.call(investor3));
          	// Set up the necessary parameters required when making a crowdfunding request:
          	var title='Title here';
          	var description='Description here';
@@ -86,7 +86,7 @@
           	crowdfundingContract.makeProposal(title,description,minGoal,maxGoal,hostCut,duration,host,tokenAddress,{
                     from: creator,
                     gas: gasAmount
-            });
+                });
          	// View the new request:
          	var index=0;
          	var idea1 = crowdfundingContract.ideas.call(index);
@@ -106,8 +106,8 @@
          	crowdfundingContract.acceptProposal(index,{
                     from: host,
                     gas: gasAmount
-            });
-            idea1 = crowdfundingContract.ideas.call(index);
+                });
+                idea1 = crowdfundingContract.ideas.call(index);
          	console.log('First crowdfunding idea is now accepted (status=2): ' + idea1);
          	//	Fist investor is now going to invest:
           	var investor1Amount=new web3.BigNumber('400000000000000000000');
@@ -115,61 +115,59 @@
          	testToken.approve(crowdfundingContract.address,investor1Amount,{
                     from: investor1,
                     gas: gasAmount
-            });
+                });
          	crowdfundingContract.invest(investor1Amount,index,{
                     from: investor1,
                     gas: gasAmount
-            });
-            idea1 = crowdfundingContract.ideas.call(index);
+                });
+                idea1 = crowdfundingContract.ideas.call(index);
          	console.log('Crowdfunding idea after first investment: ' + idea1);
          	// 	Second investor is now going to invest:
          	var investor2Amount=new web3.BigNumber('200000000000000000000');
          	testToken.approve(crowdfundingContract.address,investor2Amount,{
                     from: investor2,
                     gas: gasAmount
-            });
+                });
          	crowdfundingContract.invest(investor2Amount,index,{
                     from: investor2,
                     gas: gasAmount
-            });
+                });
           	idea1 = crowdfundingContract.ideas.call(index);
          	console.log('Crowdfunding idea after second investment; sufficient funding reached (status=3): ' + idea1);
-            // Third investor is now going to invest:
+                // Third investor is now going to invest:
          	var investor3Amount=new web3.BigNumber('200000000000000000000');
          	testToken.approve(crowdfundingContract.address,investor3Amount,{
                     from: investor3,
                     gas: gasAmount
-            });
+                });
          	crowdfundingContract.invest(investor3Amount,index,{
                     from: investor3,
                     gas: gasAmount
-            });
-            idea1 = crowdfundingContract.ideas.call(index);
+                });
+                idea1 = crowdfundingContract.ideas.call(index);
          	console.log('Crowdfunding idea after third investment: ' + idea1);
-            console.log('The third investor has decided to invest once more with an additional equivalent amount.')
-            testToken.approve(crowdfundingContract.address,investor3Amount,{
+                console.log('The third investor has decided to invest once more with an additional equivalent amount.')
+                testToken.approve(crowdfundingContract.address,investor3Amount,{
                     from: investor3,
                     gas: gasAmount
-            });
+                });
          	crowdfundingContract.invest(investor3Amount,index,{
                     from: investor3,
                     gas: gasAmount
-            });
-            idea1 = crowdfundingContract.ideas.call(index);
+                });
+                idea1 = crowdfundingContract.ideas.call(index);
          	console.log('Crowdfunding idea after fourth investment; max funding reached and funds distributed (status=7): ' + idea1);
-            console.log('Crowdfunding event sold out.');
-            console.log('Balance of investor 1: ' + testToken.balanceOf.call(investor1));
-            console.log('Balance of investor 2: ' + testToken.balanceOf.call(investor2));
-            console.log('Balance of investor 3: ' + testToken.balanceOf.call(investor3));
-            console.log('Balance of contract: ' + testToken.balanceOf.call(crowdfundingContract.address));
+                console.log('Crowdfunding event sold out.');
+                console.log('Balance of investor 1: ' + testToken.balanceOf.call(investor1));
+                console.log('Balance of investor 2: ' + testToken.balanceOf.call(investor2));
+                console.log('Balance of investor 3: ' + testToken.balanceOf.call(investor3));
+                console.log('Balance of contract: ' + testToken.balanceOf.call(crowdfundingContract.address));
          	console.log('Because the crowdfunding event has sold out, the funds have automatically been distributed to the creator and host.')
          	console.log('Balance of creator: ' + testToken.balanceOf.call(creator));
          	console.log('Balance of host:    ' + testToken.balanceOf.call(host));
          	console.log('Scenario 1 complete.')
-         }
-         })
-         }
-         })
+        }})
+}})
       </script>
    </body>
 </html>
