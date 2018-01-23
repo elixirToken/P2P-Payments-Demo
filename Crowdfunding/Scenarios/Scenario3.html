@@ -51,8 +51,8 @@
          	testToken.importBalance(investor1InitialBalance,{
                     from: investor1,
                     gas: gasAmount
-            }); 
-            console.log('Initial balance of investor 1: ' + testToken.balanceOf.call(investor1));
+                }); 
+                console.log('Initial balance of investor 1: ' + testToken.balanceOf.call(investor1));
          	// Set up the necessary parameters required when making a crowdfunding request:
          	var title='Title here';
          	var description='Description here';
@@ -72,7 +72,7 @@
           	crowdfundingContract.makeProposal(title,description,minGoal,maxGoal,hostCut,duration,host,tokenAddress,{
                     from: creator,
                     gas: gasAmount
-            });
+                });
          	// View the new request:
          	var index=0;
          	var idea1 = crowdfundingContract.ideas.call(index);
@@ -80,8 +80,8 @@
          	crowdfundingContract.acceptProposal(index,{
                     from: host,
                     gas: gasAmount
-            });
-            idea1 = crowdfundingContract.ideas.call(index);
+                });
+                idea1 = crowdfundingContract.ideas.call(index);
          	console.log('First crowdfunding idea is now accepted (status=2): ' + idea1);
          	//	Fist investor is now going to invest:
           	var investor1Amount=new web3.BigNumber('400000000000000000000');
@@ -89,39 +89,37 @@
          	testToken.approve(crowdfundingContract.address,investor1Amount,{
                     from: investor1,
                     gas: gasAmount
-            });
+                });
          	crowdfundingContract.invest(investor1Amount,index,{
                     from: investor1,
                     gas: gasAmount
-            });
-            idea1 = crowdfundingContract.ideas.call(index);
+                });
+                idea1 = crowdfundingContract.ideas.call(index);
          	console.log('Crowdfunding idea after only investment: ' + idea1);
          	console.log('No other investors decide to join during crowdfunding duration...');
-            console.log('Balance of investor 1: ' + testToken.balanceOf.call(investor1));
-            console.log('Balance of contract: ' + testToken.balanceOf.call(crowdfundingContract.address));
+                console.log('Balance of investor 1: ' + testToken.balanceOf.call(investor1));
+                console.log('Balance of contract: ' + testToken.balanceOf.call(crowdfundingContract.address));
          	console.log('Balance of creator: ' + testToken.balanceOf.call(creator));
          	console.log('Balance of host:    ' + testToken.balanceOf.call(host));
          	// Either the host of creator need to wait out the duration and then the claim period begins...
          	for (i = 0; i < 30; i++) {
-               	crowdfundingContract.advanceBlock();
-         }
+               	        crowdfundingContract.advanceBlock();
+                }
          	crowdfundingContract.stateFail(index,{
                     from: investor1,
                     gas: gasAmount
-            });
-            idea1 = crowdfundingContract.ideas.call(index);
-            console.log('Crowdfunding idea after stating failure (status=4): ' + idea1);
+                });
+                idea1 = crowdfundingContract.ideas.call(index);
+                console.log('Crowdfunding idea after stating failure (status=4): ' + idea1);
          	crowdfundingContract.reclaimTokens(index,{
                     from: investor1,
                     gas: gasAmount
-            });
-            console.log('Balance of investor 1 after reclaiming funds: ' + testToken.balanceOf.call(investor1));
-            console.log('Balance of crowdfunding contract after investor 1 has reclaimed funds: ' + testToken.balanceOf.call(crowdfundingContract.address));
-         console.log('Scenario 3 complete.')
-         }
-         })
-         }
-         })
+                });
+                console.log('Balance of investor 1 after reclaiming funds: ' + testToken.balanceOf.call(investor1));
+                console.log('Balance of crowdfunding contract after investor 1 has reclaimed funds: ' + testToken.balanceOf.call(crowdfundingContract.address));
+                console.log('Scenario 3 complete.')
+        }})
+}})
       </script>
    </body>
 </html>

@@ -51,9 +51,9 @@
          	testToken.importBalance(investor1InitialBalance,{
                     from: investor1,
                     gas: gasAmount
-            }); 
-            // Initial balances of the investor:
-            console.log('Balance of investor 1: ' + testToken.balanceOf.call(investor1));
+                }); 
+                // Initial balances of the investor:
+                console.log('Balance of investor 1: ' + testToken.balanceOf.call(investor1));
          	// Set up the necessary parameters required when making a crowdfunding request:
          	var title='Title here';
          	var description='Description here';
@@ -73,7 +73,7 @@
           	crowdfundingContract.makeProposal(title,description,minGoal,maxGoal,hostCut,duration,host,tokenAddress,{
                     from: creator,
                     gas: gasAmount
-            });
+                });
          	// View the new request:
          	var index=0;
          	var idea1 = crowdfundingContract.ideas.call(index);
@@ -81,8 +81,8 @@
          	crowdfundingContract.acceptProposal(index,{
                     from: host,
                     gas: gasAmount
-            });
-            idea1 = crowdfundingContract.ideas.call(index);
+                });
+                idea1 = crowdfundingContract.ideas.call(index);
          	console.log('First crowdfunding idea is now accepted (status=2): ' + idea1);
          	//	Fist investor is now going to invest:
           	var investor1Amount=new web3.BigNumber('400000000000000000000');
@@ -90,23 +90,21 @@
          	testToken.approve(crowdfundingContract.address,investor1Amount,{
                     from: investor1,
                     gas: gasAmount
-            });
-            console.log('Investor is now investing all of their balance...')
+                });
+                console.log('Investor is now investing all of their balance...')
          	crowdfundingContract.invest(investor1Amount,index,{
                     from: investor1,
                     gas: gasAmount
-            });
-            idea1 = crowdfundingContract.ideas.call(index);
+                });
+                idea1 = crowdfundingContract.ideas.call(index);
          	console.log('Crowdfunding has now reached minimum/maximum goal and funds have been distributed (status=7): ' + idea1);
-            console.log('Balance of investor 1: ' + testToken.balanceOf.call(investor1));
-            console.log('Balance of contract: ' + testToken.balanceOf.call(crowdfundingContract.address));
+                console.log('Balance of investor 1: ' + testToken.balanceOf.call(investor1));
+                console.log('Balance of contract: ' + testToken.balanceOf.call(crowdfundingContract.address));
          	console.log('Balance of creator: ' + testToken.balanceOf.call(creator));
          	console.log('Balance of host:    ' + testToken.balanceOf.call(host));
-         console.log('Scenario 4 complete.');
-         }
-         })
-         }
-         })
+                console.log('Scenario 4 complete.');
+        }})
+}})
       </script>
    </body>
 </html>
