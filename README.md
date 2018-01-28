@@ -1,28 +1,4 @@
-# P2P-Payments-Demo
+# Elix Smart Contract Demos
 Prerequisites: Ethereum testnet and browser developer console.
 
-Try the following crowdfunding scenarios:
-
-1. Successful maximum funding campaign (Multiple investors).
-2. Minimum goal reached and funding distributed (Multiple investors).
-3. Insufficient funding (Single investor).
-4. Minimum goal = maximum goal (Single investor).
-5. Insufficient funding (Multiple investors).
-
-Try the following lending scenarios:
-
-1. Single payment with mining.
-2. Single late payment with mining.
-3. Multiple payments with mining.
-4. Multiple payments with interest and mining.
-5. Single payment with interest and mining.
-6. Single payment with mining and interest and an attempt to break holding using transfer.
-7. Mining (Two levels).
-8. Total default with mining.
-9. Single payment without mining.
-10. Single late payment without mining.
-11. Single payment with interest without mining.
-12. Multiple payments with interest without mining.
-13. Single payment with mining and interest and an attempt to break holding using transferFrom.
-
-Use the console to view information as each scenario runs. Use the lending and crowdfunding documentation to understand how to modify and create new scenarios. You can combine or alter as many scenarios as desired; the contracts will keep track of all relevant information.
+In order to simulate interactions on our lending and crowdfunding platforms, please select either the "Lending" or "Crowdfunding" folder above, and then download the different scenarios from the "Scenarios" folder. You will need to have an Ethereum testnet server such as TestRPC working in order to run the scenarios.
