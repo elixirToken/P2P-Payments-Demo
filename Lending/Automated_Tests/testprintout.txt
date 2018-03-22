@@ -1,0 +1,136 @@
+~/Elixir/smartcontracts/standalone_tests$ truffle test
+Using network 'development'.
+
+
+
+  Contract: TokenManager1
+    ✓ should allow volatility address to increase the amount and interest for loan (381ms)
+    ✓ should not allow borrower (not volatility address) to increase the amount and interest for loan (333ms)
+    ✓ should not allow lender (not volatility address) to increase the amount and interest for loan (284ms)
+    ✓ should allow volatility address to increase the amount and interest after payments made (502ms)
+    ✓ should allow borrower to pay off new loan amount after volatility address adjusts loan (nonmining loan) (675ms)
+    ✓ should allow borrower to pay off new loan amount after volatility address adjusts loan (mining loan) (623ms)
+    ✓ should allow volatility address to change amount and interest randomly and loan should be marked completed if already paid back and amount and interest are adjusted accordingly (nonmining) (5528ms)
+    ✓ should allow borrower to pay off new loan amount after volatility address adjusts loan to edge maximum amount and interest using bignumber (nonmining loan) (647ms)
+
+  Contract: TokenManager1
+    ✓ should allow borrower to request another loan (83ms)
+    ✓ should allow another borrower to request loan (138ms)
+    ✓ should allow another borrower to request loan for slightly under max amount using bignumber (104ms)
+    ✓ should allow another borrower to request second loan (84ms)
+    ✓ should allow borrower to request loan (87ms)
+    ✓ should allow borrower to request loan with high amount (82ms)
+    ✓ should allow borrower to request loan without message (95ms)
+    ✓ should allow borrower to request loan with long loan message (msgX10) (96ms)
+    ✓ should not allow borrower to make payments on unapproved loan (228ms)
+    ✓ should not allow lender with no funds to accept loan (110ms)
+    ✓ should not allow lender who has not approved contract to accept loan (147ms)
+    ✓ should not allow user other than lender to accept loan (234ms)
+    ✓ should allow lender with sufficient approved funds to accept loan (265ms)
+    ✓ should not allow borrower without funds to make payments to loan (311ms)
+    ✓ should not allow borrower with funds but without approving contract to make payments to loan (363ms)
+    ✓ should allow borrower with approved funds to make payments to loan (476ms)
+    ✓ loan stress test - should allow different borrowers to create many loans (6754ms)
+    ✓ should allow borrower with approved funds to pay back loan all at once without mining (561ms)
+    ✓ should allow borrower with approved funds to pay back loan all at once without mining with high amount (472ms)
+    ✓ should allow borrower with approved funds to pay back loan all at once with mining with high amount (495ms)
+    ✓ should allow borrower with approved funds to pay back loan in full in multiple installments without mining (1027ms)
+    ✓ should allow borrower with approved funds to pay back loan all at once with mining (510ms)
+    ✓ after loan without mining paid back, lender should have amount and interest paid into their account (561ms)
+    ✓ for nonmining loans, incremental payments should be sent to lender as borrower makes them (554ms)
+    ✓ for mining loans, incremental payments should be kept in contract as borrower makes them (468ms)
+    ✓ after loan that will mine is fully paid the total interest + balance should be in mining (592ms)
+    ✓ should allow lender to claim reward after mining period over, lender and borrower get appropriate awards and lender also gets amount + interest returned (10929ms)
+    ✓ 2 -should allow lender to claim reward after mining period over, lender and borrower get appropriate awards and lender also gets amount + interest returned (11123ms)
+    ✓ should allow borrower to claim reward after mining period over (4198ms)
+    ✓ should allow lender to claim all mining reward after mining period over if borrower paid back late (12551ms)
+    ✓ should not allow party that is not borrower or lender to claim mining reward (870ms)
+    ✓ should allow borrower to cancel loan request before its accepted (162ms)
+    ✓ should not allow lender to accept loan cancelled by borrower (249ms)
+    ✓ should not allow non-borrower to cancel loan request before its accepted (148ms)
+    ✓ should allow lender to cancel loan request (172ms)
+    ✓ should not allow lender to accept loan cancelled by lender (316ms)
+    ✓ should allow lender to cancel accepted nonmining loan (357ms)
+    ✓ should allow lender to cancel accepted nonmining loan with partial payments made (536ms)
+    ✓ should not allow borrower to make payments to cancelled active loan (615ms)
+    ✓ should not lender to cancel accepted mining loan without borrower confirmation (593ms)
+    ✓ should allow lender to request to cancel accepted mining loan with partial payments made and receive current payments after borrower approves cancellation (717ms)
+    ✓ loan should go into mining if borrower does not approve lender cancel request for mining loan (752ms)
+    ✓ should not allow lender to approve the cancel request (697ms)
+    ✓ should allow lender to cancel mining for loan only if loan paid back late (8067ms)
+    ✓ should return total supply
+
+  Contract: Crowdfund
+    ✓ should allow edge max and min goals (114ms)
+    ✓ should allow long description and title (243ms)
+    ✓ should allow normal length description and title (142ms)
+    ✓ should allow edge goal close to max requiring bignumber (121ms)
+    ✓ should allow reasonable max goals (405ms)
+    ✓ should allow reasonable min goals (344ms)
+    ✓ should not allow 0 min goal
+    ✓ should not allow less than one fractional min balance
+    ✓ should not allow min goal greater than max goal
+    ✓ should round down fractional min balance (99ms)
+    ✓ should not allow max goal to exceed max goal limit
+    ✓ should be okay with empty title (57ms)
+    ✓ should be okay with random character title (58ms)
+    ✓ host can accept proposal (145ms)
+    ✓ non-host can't accept proposal (133ms)
+    ✓ host can't accept already accepted proposal (159ms)
+    ✓ should not allow string for goal
+    ✓ does not allow user to pledge without sufficient approved funds (261ms)
+    ✓ proposal sells out and is distributed correctly (571ms)
+    ✓ proposal sells out and is distributed correctly with many users pledging (1237ms)
+    ✓ proposal sells out and is distributed correctly with edge max goal (using bignumber) (567ms)
+    ✓ proposal sells out and is distributed correctly with close to edge max goal requiring high precision user pledges (with bignumber) (576ms)
+    ✓ does not allow distribute to be called on already sold out campaign (638ms)
+    ✓ does not allow users to pledge 0 (354ms)
+    ✓ does not allow pledges in proposal that hit max goal (1177ms)
+    ✓ allows user to make multiple pledges to same proposal (631ms)
+    ✓ proposal sufficient when meet minimum goal but not maximum (512ms)
+    ✓ cannot distribute successful campaign funds before duration (526ms)
+    ✓ can distribute successful campaign funds only after duration (1531ms)
+    ✓ users can mark campaigns failed only after duration if insufficient funds (1477ms)
+    ✓ users can reclaim funds for failed campaigns (1605ms)
+    ✓ users cannot reclaim tokens multiple times (1648ms)
+    ✓ users cannot reclaim tokens for proposals they havent pledged in (1619ms)
+    ✓ host can distribute unreclaimed funds (1791ms)
+    ✓ creator can distribute unreclaimed funds (1890ms)
+    ✓ creator cannot redistribute funds to bad addresses (1818ms)
+
+  Contract: TokenManager1
+Total Supply: 0 million
+Percent w/ Hyperbolic Decay: 10
+    ✓ interest initially starts with 10 percent reward (107ms)
+Total Supply: 18 million
+Percent w/ Hyperbolic Decay: 2.5
+    ✓ interest is at 2.5 percent at 18 million total supply (108ms)
+Total Supply: 18 million
+Percent w/ Hyperbolic Decay: 2.5
+    ✓ interest stays at 2.5 percent after 18 million total supply (119ms)
+Total Supply: 9 million
+Percent w/ Hyperbolic Decay: 4
+    ✓ mining interest is between 10 and 2.5 percent with half of 18 million total supply (109ms)
+Total Supply: 17 million
+Percent w/ Hyperbolic Decay: 2.51
+    ✓ mining interest is close to 2.5 percent with almost 18 million total supply (103ms)
+Total Supply: 0 million
+Percent w/ Hyperbolic Decay: 10
+Total Supply: 0 million
+Percent w/ Hyperbolic Decay: 9.523
+Total Supply: 1 million
+Percent w/ Hyperbolic Decay: 8.571
+Total Supply: 5 million
+Percent w/ Hyperbolic Decay: 5.454
+Total Supply: 10 million
+Percent w/ Hyperbolic Decay: 3.75
+Total Supply: 15 million
+Percent w/ Hyperbolic Decay: 2.857
+Total Supply: 20 million
+Percent w/ Hyperbolic Decay: 2.5
+Total Supply: 21 million
+Percent w/ Hyperbolic Decay: 2.5
+    ✓ uses hyperbolic decay for mining interest (906ms)
+
+
+  95 passing (2m)
